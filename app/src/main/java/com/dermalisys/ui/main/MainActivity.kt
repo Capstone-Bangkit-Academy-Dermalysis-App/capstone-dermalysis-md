@@ -1,7 +1,8 @@
-package com.dermalisys
+package com.dermalisys.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dermalisys.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
