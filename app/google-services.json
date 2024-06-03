@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "655386591374",
+    "project_id": "dermalisys",
+    "storage_bucket": "dermalisys.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655386591374:android:70909a154bd944769349df",
+        "android_client_info": {
+          "package_name": "com.dermalisys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655386591374-ld5rc3b0vmtg9cbasd3tueo5i9uqh012.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-Agn0gmEmTsk9kdDppurX_3aR2vZzWAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655386591374-ld5rc3b0vmtg9cbasd3tueo5i9uqh012.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

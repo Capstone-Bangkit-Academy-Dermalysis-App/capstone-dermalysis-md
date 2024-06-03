@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Dermalisys</string>
+    <string name="welcome">Welcome</string>
+    <string name="dermalisys">Dermalisys</string>
+    <string name="login_to_your_account">Login to your account</string>
+    <string name="register_text_link">Belum punya akun? Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="fullname">Fullname</string>
+    <string name="temukan_solusi_permasalahan_kulit_anda">Temukan solusi\npermasalahan\nkulit anda</string>
 </resources>
