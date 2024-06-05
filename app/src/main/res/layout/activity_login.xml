@@ -96,11 +96,19 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lupa_password"
+        android:fontFamily="@font/poppins_regular"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"/>
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:text="@string/login"
         android:textStyle="bold"
         android:textSize="18sp"
@@ -108,10 +116,10 @@
         style="@style/darkThemeText"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_to_register"
         style="@style/darkThemeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,7 +138,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
         app:layout_constraintStart_toEndOf="@+id/guest"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_to_register" />
 
     <ImageView
         android:layout_width="40dp"
@@ -178,7 +186,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
