@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dermalisys.BuildConfig
 import com.dermalisys.databinding.ActivityLoginBinding
 import com.dermalisys.ui.main.MainActivity
+import com.dermalisys.ui.register.RegisterActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -41,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
-        binding.progressBar.visibility = View.GONE
+        showLoading(false)
 
         auth = Firebase.auth
 
@@ -53,6 +54,10 @@ class LoginActivity : AppCompatActivity() {
         binding.guest.setOnClickListener {
             showLoading(true)
             startActivity(Intent(this, MainActivity::class.java))
+        }
+        binding.tvToRegister.setOnClickListener {
+            showLoading(true)
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
+    android:background="#E5EDFF"
     tools:context=".ui.main.MainActivity">
 
     <TextView
@@ -13,161 +13,124 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:textSize="30sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="110dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-<!--        <com.google.android.material.bottomappbar.BottomAppBar-->
-<!--            android:id="@+id/app_bar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="65dp"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            app:contentInsetStart="0dp"-->
-<!--            app:contentInsetLeft="0dp">-->
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/white"
+            app:fabAnchorMode="cradle"
+            app:fabAlignmentMode="center"
+            app:fabCradleVerticalOffset="0dp"
+            app:fabCradleMargin="15dp"
+            app:fabCradleRoundedCornerRadius="35dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="horizontal">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_home"-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_gravity="center" />-->
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_home"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        app:tint="@color/gray" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_home"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="Home"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Home"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textAllCaps="false"
+                        android:textColor="@color/gray"
+                        android:textStyle="bold"
+                        android:textAlignment="center"/>
+                </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_payment"-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_gravity="center" />-->
+                </LinearLayout>
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_payment"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="Payment"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:visibility="invisible">-->
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_person"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        app:tint="@color/gray" />
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_middle"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center" />-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Profile"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textAllCaps="false"
+                        android:textColor="@color/gray"
+                        android:textStyle="bold"
+                        android:textAlignment="center"/>
+                </LinearLayout>
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_iv_middle"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="Home"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
+            </LinearLayout>
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="@drawable/ic_cam"
+            android:foregroundTintMode="multiply"
+            app:fabCustomSize="75dp"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="center"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:tint="@color/white" />
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_task"-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_gravity="center" />-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_task"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="My Task"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_profile"-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_gravity="center" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_profile"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="Profile"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.bottomappbar.BottomAppBar>-->
-
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_anchor="@+id/app_bar"-->
-<!--            app:maxImageSize="20dp"/>-->
-
-<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
