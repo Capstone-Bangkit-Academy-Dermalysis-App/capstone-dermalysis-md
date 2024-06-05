@@ -9,8 +9,6 @@
                 android:centerColor="#37A1F7"
                 android:endColor="#37A1F7"
                 android:angle="90" />
-            <size android:height="@dimen/design_fab_image_size"/>
         </shape>
     </item>
-
 </layer-list>

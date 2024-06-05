@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
+    android:background="#E5EDFF"
     tools:context=".ui.main.MainActivity">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:textSize="30sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -49,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -56,6 +57,7 @@
                         android:layout_height="40dp"
                         android:src="@drawable/ic_home"
                         android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
                         app:tint="@color/gray" />
 
                     <TextView
@@ -73,6 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                 </LinearLayout>
@@ -81,6 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -88,7 +92,8 @@
                         android:layout_height="40dp"
                         android:src="@drawable/ic_person"
                         android:layout_gravity="center"
-                        app:tint="@color/gray" />
+                        android:layout_marginTop="5dp"
+                        app:tint="@color/gray"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -105,14 +110,25 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_camera"
-            android:backgroundTint="@color/white"
+            android:foreground="@drawable/ic_cam"
+            app:fabCustomSize="75dp"
             app:layout_anchor="@id/app_bar"
-            app:fabCustomSize="90dp"
             app:layout_anchorGravity="center"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

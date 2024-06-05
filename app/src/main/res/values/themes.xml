@@ -2,8 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Dermalisys" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/darkBlue</item>
+        <item name="colorTertiary">@color/gray</item>
     </style>
 
     <style name="Theme.Dermalisys" parent="Base.Theme.Dermalisys" />
+
 </resources>
