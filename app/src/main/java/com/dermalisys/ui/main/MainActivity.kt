@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
+
+
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
 
