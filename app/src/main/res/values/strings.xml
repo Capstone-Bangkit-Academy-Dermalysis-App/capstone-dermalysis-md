@@ -13,4 +13,5 @@
     <string name="fullname">Fullname</string>
     <string name="temukan_solusi_permasalahan_kulit_anda">Temukan solusi\npermasalahan\nkulit anda</string>
     <string name="lupa_password"><u>Lupa password?</u></string>
+    <string name="username">username</string>
 </resources>
