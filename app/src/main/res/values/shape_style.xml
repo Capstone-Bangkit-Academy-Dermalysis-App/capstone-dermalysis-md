@@ -3,4 +3,6 @@
     <style name="RoundedTextInputLayout" parent="">
     <item name="cornerFamily">rounded</item>
     <item name="cornerSize">30dp</item> </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
 </resources>
