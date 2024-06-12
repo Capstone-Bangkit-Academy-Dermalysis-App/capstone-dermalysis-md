@@ -3,22 +3,22 @@ package com.dermalisys.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
+import com.dermalisys.data.remote.response.login.LoginOkResponse
 import com.dermalisys.databinding.ActivityMainBinding
-import com.dermalisys.ui.login.LoginActivity
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import kotlinx.coroutines.launch
+import com.dermalisys.ui.ViewModelFactory
+import com.dermalisys.ui.profile.ProfileActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var auth: FirebaseAuth
+    private val viewModel: MainViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,25 +30,33 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
+        showLoading(false)
 
+        binding.profileActivity.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
 
-        auth = Firebase.auth
-        val firebaseUser = auth.currentUser
+        binding.cameraButton.setOnClickListener {
+            // scan
+        }
 
+        setSetup()
+    }
 
-        binding.logout.setOnClickListener {
-            signOut()
+    private fun setSetup() {
+        with(binding) {
+            viewModel.getSession().observe(this@MainActivity) {
+                tvUsername.text = it.name
+            }
         }
     }
 
-    private fun signOut() {
+    override fun onResume() {
+        super.onResume()
+        showLoading(false)
+    }
 
-        lifecycleScope.launch {
-            val credentialManager = CredentialManager.create(this@MainActivity)
-            auth.signOut()
-            credentialManager.clearCredentialState(ClearCredentialStateRequest())
-            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-            finish()
-        }
+    private fun showLoading(isVisible: Boolean) {
+        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

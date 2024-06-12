@@ -7,19 +7,65 @@
     android:background="#E5EDFF"
     tools:context=".ui.main.MainActivity">
 
-    <TextView
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textSize="30sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/profile_img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal" />
+
+    <LinearLayout
+        android:id="@+id/banner"
+        android:layout_width="360dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/banner"
+        android:orientation="horizontal"
+        android:elevation="10dp"
+        android:translationZ="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_regular"
+        android:textStyle="bold"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+        app:layout_constraintStart_toEndOf="@+id/circleImageView"
+        app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+
+    <TextView
+        android:id="@+id/tv_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="History"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/history_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout2"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,13 +78,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:backgroundTint="@color/white"
-            app:fabAnchorMode="cradle"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
             app:fabAlignmentMode="center"
-            app:fabCradleVerticalOffset="0dp"
+            app:fabAnchorMode="cradle"
             app:fabCradleMargin="15dp"
             app:fabCradleRoundedCornerRadius="35dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp">
+            app:fabCradleVerticalOffset="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,71 +92,73 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/home_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.25"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="0.25"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_home"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_home"
                         app:tint="@color/gray" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Home"
                         android:fontFamily="@font/poppins_regular"
+                        android:text="Home"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/gray"
-                        android:textStyle="bold"
-                        android:textAlignment="center"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.25"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="0.25"
                     android:orientation="vertical">
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/profile_activity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.25"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="0.25"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_person"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        app:tint="@color/gray"/>
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/gray" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Profile"
                         android:fontFamily="@font/poppins_regular"
+                        android:text="Profile"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/gray"
-                        android:textStyle="bold"
-                        android:textAlignment="center"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/camera_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foreground="@drawable/ic_cam"
@@ -126,16 +174,19 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment_activity_main"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
