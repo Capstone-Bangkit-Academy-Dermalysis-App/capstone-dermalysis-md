@@ -99,8 +99,8 @@ class RegisterActivity : AppCompatActivity() {
                     }
                     is Result.Error -> {
                         showLoading(false)
-                        setupFail(result.success)
-                        Log.e("FailedRegister", result.success)
+                        setupFail(result.error)
+                        Log.e("FailedRegister", result.error)
                     }
                 }
             }

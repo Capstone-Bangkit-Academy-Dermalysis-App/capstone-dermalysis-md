@@ -92,8 +92,8 @@ class LoginActivity : AppCompatActivity() {
 
                         is Result.Error -> {
                             showLoading(false)
-                            Log.e("loginError", result.success)
-                            setupFail(result.success)
+                            Log.e("loginError", result.error)
+                            setupFail(result.error)
                         }
                     }
                 }
@@ -104,8 +104,15 @@ class LoginActivity : AppCompatActivity() {
     private fun setupAction(token: String, message: String, result: LoginOkResponse) {
         val email = binding.edEmail.text.toString()
 
-        val displayName = result.data?.firstOrNull()?.user?.displayName
-        viewModel.saveSession(UserModel(email, token, displayName!!))
+        val displayName = result.data.firstOrNull()!!.user.displayName
+        val userId = result.data.firstOrNull()!!.user.uid
+        val accessToken = result.data.firstOrNull()!!.user.stsTokenManager.accessToken
+        Log.d("LoginUserModel", email)
+        Log.d("LoginUserModel", token)
+        Log.d("LoginUserModel", displayName)
+        Log.d("LoginUserModel", userId)
+        Log.d("LoginUserModel", accessToken)
+        viewModel.saveSession(UserModel(email, token, displayName, userId, accessToken))
 
         Log.d("displayName", displayName)
 

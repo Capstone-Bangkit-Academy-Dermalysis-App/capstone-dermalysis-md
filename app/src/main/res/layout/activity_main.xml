@@ -56,6 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/banner" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
