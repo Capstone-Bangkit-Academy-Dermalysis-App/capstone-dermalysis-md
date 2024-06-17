@@ -7,6 +7,7 @@ import com.dermalisys.data.UserRepository
 import com.dermalisys.data.di.Injection
 import com.dermalisys.ui.login.LoginViewModel
 import com.dermalisys.ui.main.MainViewModel
+import com.dermalisys.ui.preview.PreviewViewModel
 import com.dermalisys.ui.profile.ProfileViewModel
 import com.dermalisys.ui.register.RegisterViewModel
 
@@ -26,6 +27,9 @@ class ViewModelFactory(private val repository: UserRepository): ViewModelProvide
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(PreviewViewModel::class.java) -> {
+                PreviewViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

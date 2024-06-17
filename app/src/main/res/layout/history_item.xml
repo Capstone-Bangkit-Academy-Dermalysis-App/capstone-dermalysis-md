@@ -9,12 +9,14 @@
     android:background="@drawable/history_item_bg">
 
     <ImageView
+        android:id="@+id/iv_disease_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -31,12 +33,16 @@
 
     <TextView
         android:id="@+id/tv_deskripsi_penyakit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Deskripsi penyakit"
-        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="deskripsi"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toStartOf="@+id/iv_disease_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nama_penyakit" />
 

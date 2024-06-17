@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class LoginOkResponse(
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	val data: List<DataItem?>,
 
 	@field:SerializedName("success")
 	val success: Boolean,
@@ -26,13 +26,13 @@ data class DataItem(
 	val operationType: String? = null,
 
 	@field:SerializedName("user")
-	val user: User? = null
+	val user: User
 )
 
 data class User(
 
 	@field:SerializedName("uid")
-	val uid: String? = null,
+	val uid: String,
 
 	@field:SerializedName("emailVerified")
 	val emailVerified: Boolean? = null,
@@ -44,7 +44,7 @@ data class User(
 	val isAnonymous: Boolean? = null,
 
 	@field:SerializedName("stsTokenManager")
-	val stsTokenManager: StsTokenManager? = null,
+	val stsTokenManager: StsTokenManager,
 
 	@field:SerializedName("lastLoginAt")
 	val lastLoginAt: String? = null,
@@ -56,7 +56,7 @@ data class User(
 	val providerData: List<ProviderDataItem?>? = null,
 
 	@field:SerializedName("displayName")
-	val displayName: String? = null,
+	val displayName: String,
 
 	@field:SerializedName("appName")
 	val appName: String? = null,
@@ -71,7 +71,7 @@ data class StsTokenManager(
 	val expirationTime: Long? = null,
 
 	@field:SerializedName("accessToken")
-	val accessToken: String? = null,
+	val accessToken: String,
 
 	@field:SerializedName("refreshToken")
 	val refreshToken: String? = null

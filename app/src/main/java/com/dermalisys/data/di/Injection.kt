@@ -2,6 +2,7 @@ package com.dermalisys.data.di
 
 import android.content.Context
 import com.dermalisys.data.UserRepository
+import com.dermalisys.data.database.HistoryDatabase
 import com.dermalisys.data.pref.UserPreferences
 import com.dermalisys.data.pref.datastore
 import com.dermalisys.data.remote.retrofit.ApiConfig
@@ -13,6 +14,7 @@ object Injection {
         val pref = UserPreferences.getInstance(context.datastore)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        return UserRepository.getInstance(apiService, pref)
+        val database = HistoryDatabase.getDatabase(context)
+        return UserRepository.getInstance(apiService, pref, database)
     }
 }

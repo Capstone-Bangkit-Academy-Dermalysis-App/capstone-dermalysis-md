@@ -14,9 +14,10 @@ class ProfileViewModel(private val repository: UserRepository): ViewModel() {
         return repository.getSession().asLiveData()
     }
 
-    fun logout() {
+    fun logout(accessToken: String, signature: String) {
         viewModelScope.launch {
             repository.logout()
         }
+        repository.logoutApi(accessToken, signature)
     }
 }
