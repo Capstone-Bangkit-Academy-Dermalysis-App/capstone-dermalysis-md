@@ -15,4 +15,5 @@
     <string name="lupa_password"><u>Lupa password?</u></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_image_warning">Image is empty!</string>
 </resources>

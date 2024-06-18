@@ -3,6 +3,7 @@ package com.dermalisys.ui.profile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,6 +16,7 @@ import com.dermalisys.databinding.ActivityProfileBinding
 import com.dermalisys.ui.ViewModelFactory
 import com.dermalisys.ui.login.LoginActivity
 import com.dermalisys.ui.main.MainActivity
+import com.dermalisys.ui.preview.PreviewActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -49,8 +51,8 @@ class ProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "You need to login", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                binding.tvUsername.text = it.name
                 binding.tvEmail.text = it.email
+                binding.tvUsername.text = it.name
             }
         }
 
@@ -60,7 +62,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.cameraButton.setOnClickListener {
-            // scan
+            startActivity(Intent(this, PreviewActivity::class.java))
         }
 
         binding.ivArrowBack.setOnClickListener {
@@ -69,11 +71,14 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.btnLogout.setOnClickListener {
             lifecycleScope.launch {
+
                 val credentialManager = CredentialManager.create(this@ProfileActivity)
-                viewModel.logout()
+                viewModel.getSession().observe(this@ProfileActivity) { userModel ->
+                    viewModel.logout("access_token=${userModel.accessToken}", userModel.token)
+                    Log.d("logoutApi", userModel.accessToken)
+                }
                 auth.signOut()
                 credentialManager.clearCredentialState(ClearCredentialStateRequest())
-                startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
             }
         }
     }
