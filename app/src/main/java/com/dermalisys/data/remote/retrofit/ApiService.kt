@@ -60,5 +60,11 @@ interface ApiService {
         @Header("Cookie") authToken: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): List<DataItem>
+    ): GetAllUserPredictResponse
+
+    @GET("/api/predictions/{userId}")
+    suspend fun getAccessTokenWithHistoryAPI(
+        @Path("userId") userId: String,
+        @Header("Cookie") authToken: String,
+    ): GetAllUserPredictResponse
 }

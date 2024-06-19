@@ -103,7 +103,7 @@
         android:hint="@string/password"
         style="@style/darkThemeText"
         app:hintTextColor="@color/black"
-        app:helperText="Pasord minimal 8 karakter"
+        app:helperText="Password minimal 8 karakter"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -111,9 +111,10 @@
         app:shapeAppearance="@style/RoundedTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email">
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dermalisys.ui.custom.PasswordEditText
             android:id="@+id/ed_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,6 +131,7 @@
         android:textSize="18sp"
         android:fontFamily="@font/poppins_regular"
         style="@style/darkThemeText"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password" />

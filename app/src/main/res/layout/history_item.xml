@@ -8,16 +8,25 @@
     android:layout_marginBottom="5dp"
     android:background="@drawable/history_item_bg">
 
-    <ImageView
-        android:id="@+id/iv_disease_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/iv_card_image"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
         android:layout_marginEnd="18dp"
+        app:strokeWidth="0dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_disease_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tv_nama_penyakit"
@@ -32,6 +41,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_confidence_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="0%"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_card_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tv_deskripsi_penyakit"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -42,7 +63,7 @@
         android:textSize="14sp"
         android:maxLines="2"
         android:ellipsize="end"
-        app:layout_constraintEnd_toStartOf="@+id/iv_disease_image"
+        app:layout_constraintEnd_toStartOf="@+id/iv_card_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nama_penyakit" />
 

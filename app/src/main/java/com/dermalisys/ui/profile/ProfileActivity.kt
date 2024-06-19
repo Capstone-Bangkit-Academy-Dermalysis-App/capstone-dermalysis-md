@@ -44,15 +44,16 @@ class ProfileActivity : AppCompatActivity() {
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
 
+        binding.ivProfile.setColorFilter(resources.getColor(R.color.blue))
+        binding.tvProfile.setTextColor(resources.getColor(R.color.blue))
+
         viewModel.getSession().observe(this) {
-            if (!it.isLogin) {
-                // Not signed in, launch the Login activity
-                startActivity(Intent(this, LoginActivity::class.java))
-                Toast.makeText(this, "You need to login", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
+            if (it.isLogin || firebaseUser != null) {
                 binding.tvEmail.text = it.email
                 binding.tvUsername.text = it.name
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         }
 
@@ -66,7 +67,10 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.ivArrowBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            onBackPressedDispatcher.onBackPressed().apply {
+                startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
+                finish()
+            }
         }
 
         binding.btnLogout.setOnClickListener {
@@ -79,6 +83,9 @@ class ProfileActivity : AppCompatActivity() {
                 }
                 auth.signOut()
                 credentialManager.clearCredentialState(ClearCredentialStateRequest())
+
+                startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
+                finish()
             }
         }
     }

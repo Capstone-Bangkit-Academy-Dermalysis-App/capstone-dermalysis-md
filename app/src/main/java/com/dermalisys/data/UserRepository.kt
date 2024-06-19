@@ -1,9 +1,9 @@
 package com.dermalisys.data
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -13,7 +13,6 @@ import com.dermalisys.data.database.HistoryDatabase
 import com.dermalisys.data.pref.UserModel
 import com.dermalisys.data.pref.UserPreferences
 import com.dermalisys.data.remote.response.getuserpredict.DataItem
-import com.dermalisys.data.remote.response.getuserpredict.GetAllUserPredictErrorResponse
 import com.dermalisys.data.remote.response.getuserpredict.GetAllUserPredictResponse
 import com.dermalisys.data.remote.response.login.LoginOkResponse
 import com.dermalisys.data.remote.response.logout.LogoutResponse
@@ -36,7 +35,6 @@ class UserRepository(
     private val historyDatabase: HistoryDatabase
 ) {
     private val secretToken = BuildConfig.API_SECRET_TOKEN
-    private var currentImageUri: Uri? = null
 
     suspend fun saveSession(user: UserModel) {
         userPref.saveSession(user)
@@ -138,11 +136,11 @@ class UserRepository(
 
     fun predictWithoutUser(
         multipart: MultipartBody.Part,
-        token: String
+        signature: String
     ): LiveData<Result<PredictWithUserResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = ApiConfig.getApiService(token).predictWithoutUser(multipart)
+            val response = ApiConfig.getApiService(signature).predictWithoutUser(multipart)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             Log.d("predictWithUser", e.message.toString())
@@ -157,13 +155,30 @@ class UserRepository(
         }
     }
 
+    fun getAccessTokenWithHistoryAPI(signature: String, userId: String, accessToken: String): LiveData<Result<GetAllUserPredictResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).getAccessTokenWithHistoryAPI(userId, accessToken)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("predictWithUser", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, PredictWithUserResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage!!))
+        }
+    }
+
     fun getHistory(signature: String, userId: String, accessToken: String): LiveData<PagingData<DataItem>> {
+        @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
+            remoteMediator = HistoryRemoteMediator(historyDatabase, signature, userId, accessToken),
             pagingSourceFactory = {
-                HistoryPagingSource(signature, userId, accessToken)
+//                HistoryPagingSource(signature, userId, accessToken)
+                historyDatabase.historyDao().getAllHistory()
             }
         ).liveData
     }

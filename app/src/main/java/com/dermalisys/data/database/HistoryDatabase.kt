@@ -16,6 +16,8 @@ import com.dermalisys.data.remote.response.getuserpredict.DataItem
 @TypeConverters(Converters::class)
 abstract class HistoryDatabase : RoomDatabase() {
 
+    abstract fun historyDao(): HistoryDao
+
     companion object {
         @Volatile
         private var INSTANCE: HistoryDatabase? = null
