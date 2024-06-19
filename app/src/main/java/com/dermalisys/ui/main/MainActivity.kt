@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dermalisys.R
 import com.dermalisys.databinding.ActivityMainBinding
 import com.dermalisys.ui.ViewModelFactory
+import com.dermalisys.ui.profile.ProfileActivity
 import com.dermalisys.ui.adapter.HistoryAdapter
 import com.dermalisys.ui.adapter.LoadingStateAdapter
 import com.dermalisys.ui.login.LoginActivity
@@ -188,11 +189,6 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
-
-    companion object {
-        private const val SECRET_TOKEN = BuildConfig.API_SECRET_TOKEN
-    }
-
     override fun onStart() {
         super.onStart()
         handler.post(runnable)

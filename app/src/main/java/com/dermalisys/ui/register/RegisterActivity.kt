@@ -17,6 +17,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.dermalisys.BuildConfig
+import com.dermalisys.R
 import com.dermalisys.databinding.ActivityRegisterBinding
 import com.dermalisys.ui.ViewModelFactory
 import com.dermalisys.ui.custom.PasswordEditText
@@ -103,6 +104,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.tvToLogin.setOnClickListener {
             showLoading(true)
             startActivity(Intent(this, LoginActivity::class.java))
+            overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
             finish()
         }
 
@@ -255,4 +257,7 @@ class RegisterActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "LoginActivity"
     }
+
+
+
 }
