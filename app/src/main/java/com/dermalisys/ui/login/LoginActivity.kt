@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
         binding.tvToRegister.setOnClickListener {
             showLoading(true)
             startActivity(Intent(this, RegisterActivity::class.java))
+            overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left)
             finish()
         }
     }
@@ -155,6 +156,8 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
     }
+
+
 
 //    private fun signIn() {
 //        val credentialManager = CredentialManager.create(this) //import from androidx.CredentialManager

@@ -15,6 +15,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.dermalisys.BuildConfig
+import com.dermalisys.R
 import com.dermalisys.databinding.ActivityRegisterBinding
 import com.dermalisys.ui.ViewModelFactory
 import com.dermalisys.ui.login.LoginActivity
@@ -70,6 +71,8 @@ class RegisterActivity : AppCompatActivity() {
         binding.tvToLogin.setOnClickListener {
             showLoading(true)
             startActivity(Intent(this, LoginActivity::class.java))
+            overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
+            finish()
         }
 
         binding.btnRegister.setOnClickListener {
@@ -212,4 +215,7 @@ class RegisterActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "LoginActivity"
     }
+
+
+
 }

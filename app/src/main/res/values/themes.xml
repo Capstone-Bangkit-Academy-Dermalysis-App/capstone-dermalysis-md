@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/darkBlue</item>
         <item name="colorTertiary">@color/gray</item>
+        
     </style>
 
 </resources>
