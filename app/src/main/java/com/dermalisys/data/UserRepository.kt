@@ -19,6 +19,9 @@ import com.dermalisys.data.remote.response.logout.LogoutResponse
 import com.dermalisys.data.remote.response.predict.PredictWithUserResponse
 import com.dermalisys.data.remote.response.register.RegisterBadRequestResponse
 import com.dermalisys.data.remote.response.register.RegisterOkResponse
+import com.dermalisys.data.remote.response.resetpassword.ResetPasswordResponse
+import com.dermalisys.data.remote.response.storenewuser.StoreNewUserResponse
+import com.dermalisys.data.remote.response.updateuserdisplay.UpdateUserDisplayNameResponse
 import com.dermalisys.data.remote.retrofit.ApiConfig
 import com.dermalisys.data.remote.retrofit.ApiService
 import com.dermalisys.util.Result
@@ -64,9 +67,9 @@ class UserRepository(
 
         // Request data
         val jsonData = "{\"email\":\"$email\",\"password\":\"$pass\",\"name\":\"$name\"}"
-
         // Compute signature
         val signature = generateSignature(jsonData, secretToken)
+
         emit(Result.Loading)
         try {
             val response = ApiConfig.getApiService(signature).register(email, pass, name)
@@ -85,7 +88,6 @@ class UserRepository(
     ): LiveData<Result<LoginOkResponse>> = liveData  {
 
         val jsonData = "{\"email\":\"$email\",\"password\":\"$pass\"}"
-
         val signature = generateSignature(jsonData, secretToken)
 
         Log.d("signature", signature)
@@ -97,6 +99,34 @@ class UserRepository(
             Log.d("login", e.message.toString())
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, RegisterBadRequestResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage))
+        }
+    }
+
+    fun resetPassword(signature: String, email: String): LiveData<Result<ResetPasswordResponse>> = liveData  {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).resetPassword(email)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("resetPassword", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ResetPasswordResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage))
+        }
+    }
+
+    fun updateUserDisplayName(signature: String, userId: String, name: String, accessToken: String): LiveData<Result<UpdateUserDisplayNameResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).updateUserDisplayName(userId, name, accessToken)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("resetPassword", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ResetPasswordResponse::class.java)
             val errorMessage = errorBody.message
             emit(Result.Error(errorMessage))
         }
@@ -181,6 +211,20 @@ class UserRepository(
                 historyDatabase.historyDao().getAllHistory()
             }
         ).liveData
+    }
+
+    fun storeNewUser(signature: String, id: String, name: String, email: String): LiveData<Result<StoreNewUserResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).storeNewUser(id, name, email)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("storeNewUser", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, StoreNewUserResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage))
+        }
     }
 
     companion object{

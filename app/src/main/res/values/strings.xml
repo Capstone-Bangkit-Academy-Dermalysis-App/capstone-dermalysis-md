@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Dermalisys</string>
+    <string name="app_name">Dermalysis</string>
     <string name="welcome">Welcome</string>
-    <string name="dermalisys">Dermalisys</string>
+    <string name="dermalisys">Dermalysis</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="register_text_link">Belum punya akun? <u>Register</u></string>
     <string name="login_text_link">Sudah punya akun? <u>Login</u></string>
@@ -17,4 +17,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_image_warning">Image is empty!</string>
     <string name="retry">Retry</string>
+    <string name="ganti_password">Reset Password</string>
+    <string name="fill_email">We will send you an email</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_password_email_send">We will send you an email:</string>
+    <string name="update_name">Update Name</string>
+    <string name="your_new_name">Your new name</string>
 </resources>

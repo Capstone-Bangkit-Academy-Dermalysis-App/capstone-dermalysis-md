@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
 
-    private lateinit var auth: FirebaseAuth
-
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
@@ -82,12 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         showLoading(false)
 
-        auth = Firebase.auth
-        val firebaseUser = auth.currentUser
-
         binding.profileActivity.setOnClickListener {
             viewModel.getSession().observe(this) {
-                if (it.isLogin || firebaseUser != null) {
+                if (it.isLogin) {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     finish()
                 } else {
