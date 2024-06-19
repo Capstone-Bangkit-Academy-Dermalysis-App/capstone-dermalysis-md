@@ -25,14 +25,13 @@ class SplashActivity : AppCompatActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            goToMainAcitivity()
+           goToMainActiviy()
         }, 3000L)
     }
 
-    private fun goToMainAcitivity() {
-        Intent(this, MainActivity::class.java).also {
-            startActivity(it)
-            finish()
-        }
+    private fun goToMainActiviy() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
