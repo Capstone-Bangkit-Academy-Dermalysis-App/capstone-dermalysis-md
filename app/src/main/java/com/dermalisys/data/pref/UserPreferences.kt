@@ -16,7 +16,6 @@ class UserPreferences private constructor(private val datastore: DataStore<Prefe
     suspend fun saveSession(user: UserModel) {
         datastore.edit {
             it[EMAIL] = user.email
-            it[TOKEN] = user.token
             it[NAME] = user.name
             it[USERID] = user.userId
             it[ACCESSTOKEN] = user.accessToken
@@ -28,7 +27,6 @@ class UserPreferences private constructor(private val datastore: DataStore<Prefe
         return datastore.data.map {
             UserModel(
                 it[EMAIL] ?: "",
-                it[TOKEN] ?: "",
                 it[NAME] ?: "",
                 it[USERID] ?: "",
                 it[ACCESSTOKEN] ?: "",
@@ -47,8 +45,7 @@ class UserPreferences private constructor(private val datastore: DataStore<Prefe
         @Volatile
         private var INSTANCE: UserPreferences ?= null
 
-        private val EMAIL = stringPreferencesKey("name")
-        private val TOKEN = stringPreferencesKey("token")
+        private val EMAIL = stringPreferencesKey("email")
         private val NAME = stringPreferencesKey("name")
         private val USERID = stringPreferencesKey("userId")
         private val ACCESSTOKEN = stringPreferencesKey("accessToken")

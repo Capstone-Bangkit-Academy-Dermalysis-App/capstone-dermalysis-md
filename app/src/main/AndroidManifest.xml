@@ -30,6 +30,15 @@
             android:screenOrientation="portrait"
             android:exported="true" />
         <activity
+            android:name=".ui.editprofile.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.resetpassword.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.result.ResultActivity"
             android:exported="false" />
         <activity

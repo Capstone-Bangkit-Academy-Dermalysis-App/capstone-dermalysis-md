@@ -54,6 +54,7 @@
         style="@style/darkThemeText"
         app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_email"
         app:boxStrokeWidthFocused="0dp"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
@@ -66,7 +67,7 @@
             android:id="@+id/ed_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,17 +79,19 @@
         android:hint="@string/password"
         style="@style/darkThemeText"
         app:hintTextColor="@color/black"
-        app:helperText="Pasord minimal 8 karakter"
+        app:helperText="Password minimal 8 karakter"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:endIconMode="password_toggle"
+        app:startIconDrawable="@drawable/ic_password"
         app:shapeAppearance="@style/RoundedTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email">
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dermalisys.ui.custom.PasswordEditText
             android:id="@+id/ed_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,14 +116,13 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:fontFamily="@font/poppins_regular"
-        style="@style/darkThemeText"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password" />
 
     <TextView
         android:id="@+id/tv_to_register"
-        style="@style/darkThemeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

@@ -36,7 +36,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
+        val compilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
         jvmTarget = "1.8"
+        freeCompilerArgs += compilerArgs
     }
     buildFeatures {
         viewBinding = true
@@ -56,7 +58,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.activity:activity:1.9.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

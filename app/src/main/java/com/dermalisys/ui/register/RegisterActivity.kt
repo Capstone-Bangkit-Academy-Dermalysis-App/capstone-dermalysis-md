@@ -2,6 +2,8 @@ package com.dermalisys.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -18,6 +20,7 @@ import com.dermalisys.BuildConfig
 import com.dermalisys.R
 import com.dermalisys.databinding.ActivityRegisterBinding
 import com.dermalisys.ui.ViewModelFactory
+import com.dermalisys.ui.custom.PasswordEditText
 import com.dermalisys.ui.login.LoginActivity
 import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.util.Result
@@ -38,6 +41,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var auth: FirebaseAuth
 
+    private lateinit var passCustomET: PasswordEditText
+
     private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -53,6 +58,34 @@ class RegisterActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
+
+        passCustomET = binding.edPassword
+
+        val helperError = binding.password
+
+        passCustomET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().length > 7) {
+                    binding.btnRegister.isEnabled = true
+                    helperError.isHelperTextEnabled = false
+                    helperError.isErrorEnabled = false
+                    helperError.isPasswordVisibilityToggleEnabled = true
+                } else {
+                    binding.btnRegister.isEnabled = false
+                    helperError.isErrorEnabled = true
+                    helperError.isPasswordVisibilityToggleEnabled = false
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -76,9 +109,18 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
+            showLoading(true)
             try {
-                register()
+                showLoading(false)
+                if (binding.edPassword.length() < 8) {
+                    binding.password.error = "Password kurang dari 8 karakter"
+                } else {
+                    showLoading(true)
+                    binding.password.error = null
+                    register()
+                }
             } catch (e: HttpException) {
+                showLoading(false)
                 Log.e("FailedRegister", e.message.toString())
             }
         }

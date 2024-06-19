@@ -114,40 +114,6 @@
         app:layout_constraintTop_toTopOf="@+id/tv_edit_profile"
         app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
 
-    <ImageView
-        android:id="@+id/iv_help"
-        android:layout_width="62dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_edit_profile"
-        app:srcCompat="@drawable/help_img" />
-
-    <TextView
-        android:id="@+id/tv_help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Help"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_help"
-        app:layout_constraintStart_toEndOf="@+id/iv_help"
-        app:layout_constraintTop_toTopOf="@+id/iv_help"/>
-
-    <ImageView
-        android:id="@+id/iv_arrow_help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_help"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_help"
-        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="367dp"
@@ -235,6 +201,7 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/iv_profile"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -243,6 +210,7 @@
                         app:tint="@color/gray" />
 
                     <TextView
+                        android:id="@+id/tv_profile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"

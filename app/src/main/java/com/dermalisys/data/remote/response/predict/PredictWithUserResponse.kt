@@ -8,10 +8,10 @@ data class PredictWithUserResponse(
 	val data: Data,
 
 	@field:SerializedName("success")
-	val success: Boolean? = null,
+	val success: Boolean,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String
 )
 
 data class Data(
@@ -35,7 +35,7 @@ data class Data(
 	val userId: String? = null,
 
 	@field:SerializedName("createdAt")
-	val createdAt: String? = null,
+	val createdAt: String,
 
 	@field:SerializedName("confidenceScore")
 	val confidenceScore: Any? = null,
@@ -86,5 +86,5 @@ data class Symptom(
 	val section1: String? = null,
 
 	@field:SerializedName("section2")
-	val section2: List<String?>? = null
+	val section2: List<String>
 )

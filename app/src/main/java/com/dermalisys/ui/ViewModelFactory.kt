@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dermalisys.data.UserRepository
 import com.dermalisys.data.di.Injection
+import com.dermalisys.ui.editprofile.EditProfileViewModel
 import com.dermalisys.ui.login.LoginViewModel
 import com.dermalisys.ui.main.MainViewModel
 import com.dermalisys.ui.preview.PreviewViewModel
 import com.dermalisys.ui.profile.ProfileViewModel
 import com.dermalisys.ui.register.RegisterViewModel
+import com.dermalisys.ui.resetpassword.ResetPasswordViewModel
+import com.dermalisys.ui.result.ResultViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val repository: UserRepository): ViewModelProvider.NewInstanceFactory() {
@@ -30,6 +33,15 @@ class ViewModelFactory(private val repository: UserRepository): ViewModelProvide
             }
             modelClass.isAssignableFrom(PreviewViewModel::class.java) -> {
                 PreviewViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ResultViewModel::class.java) -> {
+                ResultViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ResetPasswordViewModel::class.java) -> {
+                ResetPasswordViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(EditProfileViewModel::class.java) -> {
+                EditProfileViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

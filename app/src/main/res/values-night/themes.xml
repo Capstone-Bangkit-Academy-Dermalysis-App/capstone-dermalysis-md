@@ -1,8 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Dermalisys" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Dermalisys" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/darkBlue</item>
+<!--        <item name="colorPrimary">@color/darkBlue</item>-->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/darkBlue</item>
+        <item name="colorTertiary">@color/gray</item>
     </style>
     
     <style name="darkThemeText" parent="TextAppearance.Material3.BodyLarge" >

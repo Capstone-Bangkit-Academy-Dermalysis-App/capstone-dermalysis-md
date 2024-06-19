@@ -62,7 +62,7 @@ data class User(
 	val appName: String? = null,
 
 	@field:SerializedName("email")
-	val email: String? = null
+	val email: String
 )
 
 data class StsTokenManager(
