@@ -18,9 +18,10 @@
     <string name="empty_image_warning">Image is empty!</string>
     <string name="retry">Retry</string>
     <string name="ganti_password">Reset Password</string>
-    <string name="fill_email">We will send you an email</string>
+    <string name="fill_email">We will send you a reset email</string>
     <string name="reset_password">Reset Password</string>
     <string name="reset_password_email_send">We will send you an email:</string>
     <string name="update_name">Update Name</string>
     <string name="your_new_name">Your new name</string>
+    <string name="your_email">Your Email</string>
 </resources>

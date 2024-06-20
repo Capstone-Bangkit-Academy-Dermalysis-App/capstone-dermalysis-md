@@ -4,21 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.dermalisys.BuildConfig
-import com.dermalisys.R
+import com.dermalisys.data.pref.UserModel
 import com.dermalisys.databinding.ActivityEditProfileBinding
 import com.dermalisys.ui.ViewModelFactory
-import com.dermalisys.ui.login.LoginActivity
-import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.ui.profile.ProfileActivity
 import com.dermalisys.util.Result
+import kotlinx.coroutines.launch
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -34,37 +32,63 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         resetPassword()
+        updateName()
 
-
+        binding.ivArrowBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun updateName() {
-        binding.btnUpdateName.setOnClickListener {
+        lifecycleScope.launch {
+            viewModel.getSession().observe(this@EditProfileActivity) { user ->
+                binding.btnUpdateName.setOnClickListener {
 
-            viewModel.getSession().observe(this) { user ->
-                val newName = binding.edName.text.toString()
-                val jsonData = "{\"email\":\"$newName\"}"
-                val signature = generateSignature(jsonData, secretToken)
-                viewModel.updateUserDisplatName(signature, user.userId, newName, user.accessToken).observe(this) { result ->
-                    when(result) {
-                        is Result.Loading -> {
+                    val newName = binding.edName.text.toString()
+                    val jsonData = "{\"name\":\"$newName\"}"
+                    val signature = generateSignature(jsonData, secretToken)
+                    viewModel.updateUserDisplatName(
+                        signature,
+                        user.userId,
+                        newName,
+                        user.oneTapLogin
+                    ).observe(this@EditProfileActivity) { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                showLoading(true)
+                            }
 
-                        }
-                        is Result.Success -> {
+                            is Result.Success -> {
+                                showLoading(false)
+                                Toast.makeText(
+                                    this@EditProfileActivity,
+                                    "Update Success",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                viewModel.saveSession(
+                                    UserModel(
+                                        user.email,
+                                        newName,
+                                        user.userId,
+                                        ""
+                                    )
+                                )
+                                onBackPressedDispatcher.onBackPressed()
+                            }
 
-                        }
-                        is Result.Error -> {
-
+                            is Result.Error -> {
+                                showLoading(false)
+                                Log.e("EditProfile", "updateName: ${result.error}")
+                            }
                         }
                     }
                 }
@@ -85,26 +109,35 @@ class EditProfileActivity : AppCompatActivity() {
 
                         val jsonData = "{\"email\":\"${user.email}\"}"
                         val signature = generateSignature(jsonData, secretToken)
-                        viewModel.resetPassword(signature, user.email).observe(this@EditProfileActivity) { result ->
-                            when(result) {
-                                is Result.Loading -> {
-                                    showLoading(true)
-                                }
-                                is Result.Success -> {
-                                    showLoading(false)
-                                    Toast.makeText(this@EditProfileActivity, "Reset password berhasil", Toast.LENGTH_SHORT).show()
-                                    startActivity(Intent(this@EditProfileActivity, ProfileActivity::class.java))
-                                    finish()
-                                }
-                                is Result.Error -> {
-                                    showLoading(false)
-                                    Log.e("EditProfile", "resetPassword: ${result.error}")
+                        viewModel.resetPassword(signature, user.email)
+                            .observe(this@EditProfileActivity) { result ->
+                                when (result) {
+                                    is Result.Loading -> {
+                                        showLoading(true)
+                                    }
+
+                                    is Result.Success -> {
+                                        showLoading(false)
+                                        Toast.makeText(
+                                            this@EditProfileActivity,
+                                            "Check your email",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        onBackPressedDispatcher.onBackPressed()
+                                    }
+
+                                    is Result.Error -> {
+                                        showLoading(false)
+                                        Log.e("EditProfile", "resetPassword: ${result.error}")
+                                    }
                                 }
                             }
-                        }
                     }
                 }
-                setNegativeButton("Cancel") { dialog, _ -> }
+                setNegativeButton("Cancel") { dialog, _ ->
+                    startActivity(Intent(this@EditProfileActivity, ProfileActivity::class.java))
+                    finish()
+                }
                 create()
                 show()
             }

@@ -1,7 +1,6 @@
 package com.dermalisys.ui.preview
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -110,10 +109,7 @@ class PreviewActivity : AppCompatActivity() {
         }
 
         binding.ivBackBtn.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed().apply {
-                startActivity(Intent(this@PreviewActivity, MainActivity::class.java))
-                finish()
-            }
+            onBackPressedDispatcher.onBackPressed()
         }
 
     }
@@ -159,7 +155,7 @@ class PreviewActivity : AppCompatActivity() {
 
                 val signature = generateSignature("{}", SECRET_TOKEN)
 
-                viewModel.predictWithUser(multipart, it.userId, signature, "access_token=${it.accessToken}").observe(this@PreviewActivity) { result ->
+                viewModel.predictWithUser(multipart, it.userId, signature, "access_token=${it.oneTapLogin}").observe(this@PreviewActivity) { result ->
                     when (result) {
                         is Result.Loading -> {
                             showLoading(true)
@@ -174,7 +170,7 @@ class PreviewActivity : AppCompatActivity() {
                                     "Sesi anda telah berakhir, silahkan login kembali",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                viewModel.logout(it.accessToken, signature)
+                                viewModel.logout(it.oneTapLogin, signature)
                                 startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
                                 finish()
                             } else {
@@ -227,7 +223,7 @@ class PreviewActivity : AppCompatActivity() {
                                     "Sesi anda telah berakhir, silahkan login kembali",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                viewModel.logout(it.accessToken, signature)
+                                viewModel.logout(it.oneTapLogin, signature)
                                 startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
                                 finish()
                             } else {
@@ -303,7 +299,7 @@ class PreviewActivity : AppCompatActivity() {
                                     "Sesi anda telah berakhir, silahkan login kembali",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                viewModel.logout(it.accessToken, signature)
+                                viewModel.logout(it.oneTapLogin, signature)
                                 startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
                                 finish()
                             }
@@ -340,6 +336,15 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+        finish()
     }
 
     companion object {

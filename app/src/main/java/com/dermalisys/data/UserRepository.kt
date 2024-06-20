@@ -79,7 +79,11 @@ class UserRepository(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, RegisterBadRequestResponse::class.java)
             val errorMessage = errorBody.message
-            emit(Result.Error(errorMessage))
+            if (errorMessage == "Firebase: Error (auth/email-already-in-use).") {
+                emit(Result.Error("Email already in user"))
+            } else {
+                emit(Result.Error(errorMessage))
+            }
         }
     }
 
@@ -98,9 +102,13 @@ class UserRepository(
         } catch (e: HttpException) {
             Log.d("login", e.message.toString())
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, RegisterBadRequestResponse::class.java)
+            val errorBody = Gson().fromJson(jsonInString, LoginOkResponse::class.java)
             val errorMessage = errorBody.message
-            emit(Result.Error(errorMessage))
+            if (errorMessage == "Firebase: Error (auth/invalid-credential).") {
+                emit(Result.Error("Email or Password is wrong"))
+            } else {
+                emit(Result.Error(errorMessage))
+            }
         }
     }
 

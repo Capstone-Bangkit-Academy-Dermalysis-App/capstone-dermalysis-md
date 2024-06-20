@@ -3,7 +3,6 @@ package com.dermalisys.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,7 +11,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.doOnTextChanged
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -26,14 +24,11 @@ import com.dermalisys.data.remote.response.login.LoginOkResponse
 import com.dermalisys.data.remote.response.storenewuser.StoreNewUserResponse
 import com.dermalisys.databinding.ActivityLoginBinding
 import com.dermalisys.ui.ViewModelFactory
-import com.dermalisys.ui.custom.MyButton
 import com.dermalisys.ui.custom.PasswordEditText
 import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.ui.register.RegisterActivity
 import com.dermalisys.ui.resetpassword.ResetPasswordActivity
 import com.dermalisys.util.Result
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -169,7 +164,9 @@ class LoginActivity : AppCompatActivity() {
             setTitle("Success!")
             setMessage(message)
             setPositiveButton("Continue") { _, _ ->
-                startActivity(Intent(context, MainActivity::class.java))
+                startActivity(Intent(context, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                })
                 finish()
             }
             create()
@@ -177,30 +174,19 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupActionTwo(message: String, result: StoreNewUserResponse) {
-
+    private fun setupActionTwo(result: StoreNewUserResponse) {
         val email = result.data.email
         val displayName = result.data.name
         val userId = result.data.id
-        val accessToken = "null"
+        val accessToken = "OneTapLogin"
 
-        try {
-            viewModel.saveSession(UserModel(email, displayName, userId, accessToken))
-        } catch (e: Exception) {
-            Toast.makeText(this, "tidak tersimpan, ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-
-        AlertDialog.Builder(this).apply {
-            setTitle("Success!")
-            setMessage(message)
-            setPositiveButton("Continue") { _, _ ->
-                startActivity(Intent(context, MainActivity::class.java))
-                finish()
-            }
-            create()
-            show()
-        }
+        viewModel.saveSession(UserModel(email, displayName, userId, accessToken))
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        })
+        finish()
     }
+
 
     private fun setupFail(message: String) {
         AlertDialog.Builder(this).apply {
@@ -220,12 +206,6 @@ class LoginActivity : AppCompatActivity() {
         mac.init(keySpec)
         val hash = mac.doFinal(data.toByteArray())
         return hash.joinToString("") { "%02x".format(it) }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        setContentView(R.layout.activity_main)
     }
 
     private fun oneTapLogin() {
@@ -290,34 +270,44 @@ class LoginActivity : AppCompatActivity() {
                     val user: FirebaseUser? = auth.currentUser
                     user?.let {
                         val uid = it.uid
-                        val displayName = it.displayName
-                        val email = it.email
+                        val displayName = it.displayName ?: ""
+                        val email = it.email ?: ""
                         val jsonData =
                             "{\"id\":\"$uid\",\"name\":\"$displayName\",\"email\":\"$email\"}"
                         Log.d("User Info", jsonData)
                         val signature = generateSignature(jsonData, secretToken)
-                        viewModel.storeNewUser(signature, uid, displayName!!, email!!).observe(this@LoginActivity) { result ->
-                            when(result) {
-                                is Result.Loading -> {
-                                    showLoading(true)
-                                }
-                                is Result.Success -> {
-                                    setupActionTwo(result.data.message, result.data)
-                                }
-                                is Result.Error -> {
-                                    showLoading(false)
-                                    Log.e("loginOneTapError", result.error)
+                        viewModel.storeNewUser(signature, uid, displayName, email)
+                            .observe(this@LoginActivity) { result ->
+                                when (result) {
+                                    is Result.Loading -> {
+                                        showLoading(true)
+                                    }
+
+                                    is Result.Success -> {
+                                        showLoading(false)
+                                        Toast.makeText(
+                                            this@LoginActivity,
+                                            "Success",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        setupActionTwo(result.data)
+                                    }
+
+                                    is Result.Error -> {
+                                        showLoading(false)
+                                        Log.e("loginOneTapError", "Result Error" + result.error)
+                                    }
                                 }
                             }
-                        }
                         Log.d("User Info", "UID: $uid, Display Name: $displayName, Email: $email")
                     }
+
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
             }
     }
-    
+
     private fun resetPassword() {
         binding.tvForgotPassword.setOnClickListener {
             startActivity(Intent(this, ResetPasswordActivity::class.java))

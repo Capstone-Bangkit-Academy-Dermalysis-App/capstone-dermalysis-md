@@ -12,8 +12,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dermalisys.BuildConfig
@@ -23,7 +21,6 @@ import com.dermalisys.databinding.ActivityMainBinding
 import com.dermalisys.ui.ViewModelFactory
 import com.dermalisys.ui.profile.ProfileActivity
 import com.dermalisys.ui.adapter.HistoryAdapter
-import com.dermalisys.ui.adapter.LoadingStateAdapter
 import com.dermalisys.ui.login.LoginActivity
 import com.dermalisys.ui.preview.PreviewActivity
 import kotlinx.coroutines.launch
@@ -83,18 +80,22 @@ class MainActivity : AppCompatActivity() {
                 if (it.isLogin) {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left)
-                    finish()
                 } else {
                     showLoading(true)
                     Toast.makeText(this, "You need to login", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    startActivity(intent)
                     finish()
                 }
             }
         }
 
         binding.cameraButton.setOnClickListener {
-            startActivity(Intent(this, PreviewActivity::class.java))
+            val intent = Intent(this, PreviewActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            startActivity(intent)
+            finish()
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -117,19 +118,22 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getSession().observe(this@MainActivity) { user ->
             if (user.isLogin) {
+                showLoading(true)
                 lifecycleScope.launch {
-                    showLoading(false)
+
                     val adapter = HistoryAdapter()
-                    binding.rvHistory.adapter = adapter.withLoadStateFooter(
-                        footer = LoadingStateAdapter {
-                            adapter.retry()
-                        }
-                    )
-                    viewModel.getHistory(signature, user.userId, "access_token=${user.accessToken}")
-                        .observe(this@MainActivity) {
-                            adapter.submitData(lifecycle, it)
-                        }
+                    binding.rvHistory.adapter = adapter
+                    try {
+                        viewModel.getHistory(signature, user.userId, "access_token=${user.oneTapLogin}")
+                            .observe(this@MainActivity) {
+                                adapter.submitData(lifecycle, it)
+                            }
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "onCreate: ${e.message}")
+                    }
+
                 }
+                showLoading(false)
             } else {
                 binding.tvEmptyHistory.visibility = View.VISIBLE
             }
@@ -186,6 +190,7 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isVisible: Boolean) {
         binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
+
     override fun onStart() {
         super.onStart()
         handler.post(runnable)

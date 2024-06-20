@@ -80,12 +80,22 @@ class ResultActivity : AppCompatActivity() {
             setTitle("Must Login!")
             setMessage("Continue to login?")
             setPositiveButton("Login") { _, _ ->
-                startActivity(Intent(this@ResultActivity, LoginActivity::class.java))
+                val intent = Intent(this@ResultActivity, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                startActivity(intent)
                 finish()
             }
             setNegativeButton("Cancel") { _, _ -> }
             create()
             show()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@ResultActivity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+        finish()
     }
 }
