@@ -26,11 +26,6 @@ import com.dermalisys.ui.adapter.HistoryAdapter
 import com.dermalisys.ui.adapter.LoadingStateAdapter
 import com.dermalisys.ui.login.LoginActivity
 import com.dermalisys.ui.preview.PreviewActivity
-import com.dermalisys.ui.profile.ProfileActivity
-import com.dermalisys.util.Result
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -48,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
+
+    private val secretToken = BuildConfig.API_SECRET_TOKEN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.getSession().observe(this) {
                 if (it.isLogin) {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left)
                     finish()
                 } else {
                     showLoading(true)
@@ -97,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.cameraButton.setOnClickListener {
             startActivity(Intent(this, PreviewActivity::class.java))
-            finish()
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -116,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.rvHistory.layoutManager = layoutManager
 
-        val signature = generateSignature("{}", SECRET_TOKEN)
+        val signature = generateSignature("{}", secretToken)
 
         viewModel.getSession().observe(this@MainActivity) { user ->
             if (user.isLogin) {

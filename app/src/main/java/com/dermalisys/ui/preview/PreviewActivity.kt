@@ -115,6 +115,7 @@ class PreviewActivity : AppCompatActivity() {
                 finish()
             }
         }
+
     }
 
     private fun startCamera() {

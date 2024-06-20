@@ -67,6 +67,7 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.homeActivity.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
             finish()
         }
 
@@ -77,21 +78,19 @@ class ProfileActivity : AppCompatActivity() {
         binding.apply {
             ivEditProfile.setOnClickListener {
                 startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
-                finish()
             }
             tvEditProfile.setOnClickListener {
                 startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
-                finish()
             }
             ivArrowEditProfile.setOnClickListener {
                 startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
-                finish()
             }
         }
 
         binding.ivArrowBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed().apply {
                 startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
+                overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
                 finish()
             }
         }

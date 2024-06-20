@@ -16,6 +16,7 @@ import com.dermalisys.R
 import com.dermalisys.databinding.ActivityEditProfileBinding
 import com.dermalisys.ui.ViewModelFactory
 import com.dermalisys.ui.login.LoginActivity
+import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.ui.profile.ProfileActivity
 import com.dermalisys.util.Result
 import javax.crypto.Mac
@@ -43,6 +44,8 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         resetPassword()
+
+
     }
 
     private fun updateName() {

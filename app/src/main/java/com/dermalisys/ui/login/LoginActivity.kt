@@ -317,8 +317,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-
-
+    
     private fun resetPassword() {
         binding.tvForgotPassword.setOnClickListener {
             startActivity(Intent(this, ResetPasswordActivity::class.java))
