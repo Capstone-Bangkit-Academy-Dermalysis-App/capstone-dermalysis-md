@@ -19,13 +19,13 @@ This project aims to develop a robust system for early diagnosis of skin disease
 - <a href="https://github.com/square/okhttp.git">OkHttp</a>
 - <a href="https://github.com/google/gson">GSON</a>
 #### UI:
-- Paging
+- <a href="https://developer.android.com/topic/libraries/architecture/paging/v3-overview">Paging</a>
 - Lifecycle:
   - ViewModel
   - LiveData
   - View Pager
 #### Database:
-- DataStore
+- <a href="https://developer.android.com/jetpack/androidx/releases/datastore#preferences-datastore-dependencies">DataStore</a> 
 - Room:
   - Pagging
   - Runtime
