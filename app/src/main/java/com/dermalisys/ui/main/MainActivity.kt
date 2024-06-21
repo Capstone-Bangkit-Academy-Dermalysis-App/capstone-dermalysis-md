@@ -78,7 +78,10 @@ class MainActivity : AppCompatActivity() {
         binding.profileActivity.setOnClickListener {
             viewModel.getSession().observe(this) {
                 if (it.isLogin) {
-                    startActivity(Intent(this, ProfileActivity::class.java))
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    startActivity(intent)
+                    finish()
                     overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left)
                 } else {
                     showLoading(true)
@@ -93,9 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.cameraButton.setOnClickListener {
             val intent = Intent(this, PreviewActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
-            finish()
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

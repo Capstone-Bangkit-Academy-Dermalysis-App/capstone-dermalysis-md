@@ -59,6 +59,10 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.homeActivity.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            startActivity(intent)
+            finish()
             overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
         }
 
@@ -71,12 +75,15 @@ class ProfileActivity : AppCompatActivity() {
                 binding.apply {
                     ivEditProfile.setOnClickListener {
                         startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
+                        finish()
                     }
                     tvEditProfile.setOnClickListener {
                         startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
+                        finish()
                     }
                     ivArrowEditProfile.setOnClickListener {
                         startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
+                        finish()
                     }
                 }
             } else {
@@ -110,6 +117,10 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+        finish()
         overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
     }
 }

@@ -161,6 +161,7 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(Intent(context, LoginActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 })
+                overridePendingTransition(R.transition.slide_in_left, R.transition.slide_out_right)
                 finish()
             }
             create()
