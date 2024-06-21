@@ -9,13 +9,13 @@ import kotlinx.parcelize.Parcelize
 data class GetAllUserPredictResponse(
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	val data: List<DataItem> = emptyList(),
 
 	@field:SerializedName("success")
 	val success: Boolean? = null,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String
 )
 
 @Parcelize
@@ -49,7 +49,7 @@ data class DataItem(
 	val treatment: List<TreatmentItem>,
 
 	@field:SerializedName("description")
-	val description: String? = null,
+	val description: String,
 
 	@field:SerializedName("cause")
 	val cause: Cause,

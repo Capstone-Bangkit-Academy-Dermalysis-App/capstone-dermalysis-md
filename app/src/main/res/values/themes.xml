@@ -1,12 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.Dermalisys" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="android:windowBackground">@color/primary</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/darkBlue</item>
         <item name="colorTertiary">@color/gray</item>
+        
     </style>
 
 </resources>

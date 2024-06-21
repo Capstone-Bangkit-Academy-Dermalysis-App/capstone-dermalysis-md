@@ -1,7 +1,6 @@
 package com.dermalisys.ui.preview
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -24,6 +23,7 @@ import com.dermalisys.data.utils.reduceFileImage
 import com.dermalisys.data.utils.uriToFile
 import com.dermalisys.databinding.ActivityPreviewBinding
 import com.dermalisys.ui.ViewModelFactory
+import com.dermalisys.ui.login.LoginActivity
 import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.ui.result.ResultActivity
 import com.dermalisys.util.Result
@@ -97,10 +97,21 @@ class PreviewActivity : AppCompatActivity() {
                         requestImageFile!!
                     )
 
-                    upload(multipartBody, uri)
+                    viewModel.getSession().observe(this@PreviewActivity) { user ->
+                        if (user.isLogin) {
+                            upload(multipartBody, uri)
+                        } else {
+                            uploadWithoutLogin(multipartBody, uri)
+                        }
+                    }
                 }
             }
         }
+
+        binding.ivBackBtn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
     }
 
     private fun startCamera() {
@@ -144,7 +155,7 @@ class PreviewActivity : AppCompatActivity() {
 
                 val signature = generateSignature("{}", SECRET_TOKEN)
 
-                viewModel.predictWithUser(multipart, it.userId, signature, "access_token=${it.accessToken}").observe(this@PreviewActivity) { result ->
+                viewModel.predictWithUser(multipart, it.userId, signature, "access_token=${it.oneTapLogin}").observe(this@PreviewActivity) { result ->
                     when (result) {
                         is Result.Loading -> {
                             showLoading(true)
@@ -153,8 +164,92 @@ class PreviewActivity : AppCompatActivity() {
                         is Result.Success -> {
                             showLoading(false)
 
-                            val cause2 = ArrayList(result.data.data.cause.section2)
-                            val symptom2 = ArrayList(result.data.data.symptom.section2!!)
+                            if (result.data.message == "Error, Unauthorized") {
+                                Toast.makeText(
+                                    this@PreviewActivity,
+                                    "Sesi anda telah berakhir, silahkan login kembali",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                viewModel.logout(it.oneTapLogin, signature)
+                                startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
+                                finish()
+                            } else {
+
+                                val intent = Intent(this@PreviewActivity, ResultActivity::class.java).apply {
+                                    putExtra("image", currentImage.toString())
+                                    putExtra("name", result.data.data.name)
+                                    putExtra("latinName", result.data.data.latinName)
+                                    putExtra("confidenceScore", String.format("%.2f%%", result.data.data.confidenceScore))
+                                    putExtra("description", result.data.data.description)
+                                    putExtra("cause1", result.data.data.cause.section1)
+                                    val cause2List = result.data.data.cause.section2
+                                    val cause2String = cause2List.mapIndexed { index, cause2item ->
+                                        "${index + 1}. $cause2item"
+                                    }.joinToString(separator = "\n") ?: "".trim()
+                                    putExtra("cause2", cause2String)
+
+                                    putExtra("symptom1", result.data.data.symptom.section1)
+                                    val section2 = result.data.data.symptom.section2
+                                    val section2result = section2.mapIndexed { index, section2item ->
+                                        "${index + 1}. $section2item"
+                                    }.joinToString("\n")
+                                    putExtra("symptom2", section2result) ?: "".trim()
+
+                                    val treatment = result.data.data.treatment
+                                    val listTreatment = treatment.mapIndexed { index, treatmentItem ->
+                                        val merkTreatment = treatmentItem.merk
+                                        val listMerkTreatment = merkTreatment.mapIndexed { _, zatAktifItem ->
+                                            "• $zatAktifItem"
+                                        }.joinToString("\n   ")
+                                        "${index + 1}. ${treatmentItem.zatAktif}\n" +
+                                                "   ${treatmentItem.tipe}\n" +
+                                                "   $listMerkTreatment"
+                                    }.joinToString("\n")
+
+                                    putExtra("treatment", listTreatment)
+                                    putExtra("date", result.data.data.createdAt)
+                                }
+                                startActivity(intent)
+                                finish()
+                            }
+
+
+                        }
+                        is Result.Error -> {
+                            showLoading(false)
+                            if (result.error == "Error, Unauthorized") {
+                                Toast.makeText(
+                                    this@PreviewActivity,
+                                    "Sesi anda telah berakhir, silahkan login kembali",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                viewModel.logout(it.oneTapLogin, signature)
+                                startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
+                                finish()
+                            } else {
+                                setupFail(result.error)
+                            }
+                        }
+                    }
+                }
+            }
+        } ?: showToast(getString(R.string.empty_image_warning))
+    }
+
+    private fun uploadWithoutLogin(multipart: MultipartBody.Part, currentImage: Uri) {
+        lifecycleScope.launch {
+            viewModel.getSession().observe(this@PreviewActivity) {
+
+                val signature = generateSignature("{}", SECRET_TOKEN)
+
+                viewModel.predictWithoutUser(multipart, signature).observe(this@PreviewActivity) { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoading(true)
+                        }
+
+                        is Result.Success -> {
+                            showLoading(false)
 
                             val intent = Intent(this@PreviewActivity, ResultActivity::class.java).apply {
                                 putExtra("image", currentImage.toString())
@@ -163,16 +258,34 @@ class PreviewActivity : AppCompatActivity() {
                                 putExtra("confidenceScore", String.format("%.2f%%", result.data.data.confidenceScore))
                                 putExtra("description", result.data.data.description)
                                 putExtra("cause1", result.data.data.cause.section1)
-                                putStringArrayListExtra("cause2", cause2)
-                                putExtra("symptom1", result.data.data.symptom.section1)
-                                putStringArrayListExtra("symptom2", symptom2)
-                                result.data.data.treatment.forEach { treatmentItem ->
-                                    val merk = ArrayList(treatmentItem.merk)
 
-                                    putExtra("zatAktif", treatmentItem.zatAktif)
-                                    putExtra("tipe", treatmentItem.tipe)
-                                    putStringArrayListExtra("merk", merk)
-                                }
+                                val cause2List = result.data.data.cause.section2
+                                val cause2String = cause2List.mapIndexed { index, cause2item ->
+                                    "${index + 1}. $cause2item"
+                                }.joinToString(separator = "\n") ?: "".trim()
+                                putExtra("cause2", cause2String)
+
+                                putExtra("symptom1", result.data.data.symptom.section1)
+                                val section2 = result.data.data.symptom.section2
+                                val section2result = section2.mapIndexed { index, section2item ->
+                                    "${index + 1}. $section2item"
+                                }.joinToString("\n") ?: "".trim()
+                                putExtra("symptom2", section2result)
+
+                                val treatment = result.data.data.treatment
+                                val listTreatment = treatment.mapIndexed { index, treatmentItem ->
+                                    val merkTreatment = treatmentItem.merk
+                                    val listMerkTreatment = merkTreatment.mapIndexed { _, zatAktifItem ->
+                                                "• $zatAktifItem"
+                                    }.joinToString("\n   ")
+                                    "${index + 1}. ${treatmentItem.zatAktif}\n" +
+                                            "   ${treatmentItem.tipe}\n" +
+                                            "   $listMerkTreatment"
+                                }.joinToString("\n")
+
+                                putExtra("treatment", listTreatment)
+
+                                putExtra("date", result.data.data.createdAt)
                             }
                             startActivity(intent)
                             finish()
@@ -180,6 +293,16 @@ class PreviewActivity : AppCompatActivity() {
                         is Result.Error -> {
                             showLoading(false)
                             setupFail(result.error)
+                            if (result.error == "Error, Unauthorized") {
+                                Toast.makeText(
+                                    this@PreviewActivity,
+                                    "Sesi anda telah berakhir, silahkan login kembali",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                viewModel.logout(it.oneTapLogin, signature)
+                                startActivity(Intent(this@PreviewActivity, LoginActivity::class.java))
+                                finish()
+                            }
                         }
                     }
                 }
@@ -189,11 +312,9 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun setupFail(message: String) {
         AlertDialog.Builder(this).apply {
-            setTitle("Failed")
+            setTitle("Confidence score is low")
             setMessage(message)
             setPositiveButton("Continue") { _, _ ->
-                startActivity(Intent(this@PreviewActivity, MainActivity::class.java))
-                finish()
             }
             create()
             show()
@@ -215,6 +336,15 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+        finish()
     }
 
     companion object {

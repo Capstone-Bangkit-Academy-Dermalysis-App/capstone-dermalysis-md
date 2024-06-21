@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/app_background"
     tools:context=".ui.register.RegisterActivity">
 
@@ -53,6 +54,7 @@
         android:layout_marginTop="40dp"
         android:hint="@string/fullname"
         style="@style/darkThemeText"
+        app:startIconDrawable="@drawable/baseline_account_circle_24"
         app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
         app:boxStrokeWidthFocused="0dp"
@@ -77,6 +79,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/email"
         style="@style/darkThemeText"
+        app:startIconDrawable="@drawable/ic_email"
         app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
         app:boxStrokeWidthFocused="0dp"
@@ -102,8 +105,9 @@
         android:layout_marginBottom="450dp"
         android:hint="@string/password"
         style="@style/darkThemeText"
+        app:startIconDrawable="@drawable/ic_password"
         app:hintTextColor="@color/black"
-        app:helperText="Pasord minimal 8 karakter"
+        app:helperText="Password minimal 8 karakter"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -111,9 +115,10 @@
         app:shapeAppearance="@style/RoundedTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email">
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dermalisys.ui.custom.PasswordEditText
             android:id="@+id/ed_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,17 +134,17 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:fontFamily="@font/poppins_regular"
-        style="@style/darkThemeText"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <TextView
         android:id="@+id/tv_to_login"
-        style="@style/darkThemeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_regular"
         android:text="@string/login_text_link"
         app:layout_constraintEnd_toEndOf="@+id/btn_register"
         app:layout_constraintStart_toStartOf="@+id/btn_register"
@@ -179,7 +184,7 @@
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginTop="200dp"
-        android:src="@drawable/logo_circle"
+        android:src="@drawable/logo_circle2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

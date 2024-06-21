@@ -38,6 +38,7 @@
         android:background="@color/gray"
         android:src="@drawable/ic_place_holder"
         android:layout_marginTop="50dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal" />

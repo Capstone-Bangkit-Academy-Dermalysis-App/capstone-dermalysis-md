@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    tools:context=".ui.result.ResultActivity">
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:context=".ui.result.ResultActivity">
 
         <ImageView
             android:id="@+id/imageView"
@@ -18,28 +17,29 @@
             android:layout_height="430dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_place_holder" />
 
         <ImageView
-            android:id="@+id/iv_back_btn"
-            android:layout_width="45dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:id="@+id/iv_arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="30dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
         <LinearLayout
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="450dp"
             android:background="@drawable/result_bg"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="-30dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
@@ -59,16 +59,18 @@
 
         <TextView
             android:id="@+id/tv_disease_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Disease Name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins_bold"
-            android:layout_marginTop="40dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Disease Name"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_confidence_score"
             app:layout_constraintStart_toStartOf="@+id/linearLayout5"
             app:layout_constraintTop_toTopOf="@+id/linearLayout5" />
 
@@ -201,11 +203,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_symptoms_2" />
 
         <TextView
-            android:id="@+id/tv_treatment_1"
+            android:id="@+id/tv_treatment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Kandungan / Zat Aktif:"
+            android:text="treatment"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="normal"
@@ -216,88 +218,35 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_treatment_title" />
 
         <TextView
-            android:id="@+id/tv_treatment_2"
+            android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Bentuk Sediaan: "
+            android:text="tanggal"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:textStyle="normal"
+            android:textAlignment="textEnd"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_treatment_1" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_treatment" />
 
-        <TextView
-            android:id="@+id/tv_treatment_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Merk Dagang: "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_treatment_2" />
-
-        <TextView
-            android:id="@+id/tv_treatment_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Kandungan / Zat Aktif:"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_treatment_3" />
-
-        <TextView
-            android:id="@+id/tv_treatment_5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Bentuk Sediaan: "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_treatment_1" />
-
-        <TextView
-            android:id="@+id/tv_treatment_6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Merk Dagang: "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_treatment_5" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineHorizontal"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_save"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_percent="0.05"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_save"
+            android:visibility="gone"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

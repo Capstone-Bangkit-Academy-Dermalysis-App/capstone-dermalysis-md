@@ -1,9 +1,9 @@
 package com.dermalisys.data
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -13,13 +13,15 @@ import com.dermalisys.data.database.HistoryDatabase
 import com.dermalisys.data.pref.UserModel
 import com.dermalisys.data.pref.UserPreferences
 import com.dermalisys.data.remote.response.getuserpredict.DataItem
-import com.dermalisys.data.remote.response.getuserpredict.GetAllUserPredictErrorResponse
 import com.dermalisys.data.remote.response.getuserpredict.GetAllUserPredictResponse
 import com.dermalisys.data.remote.response.login.LoginOkResponse
 import com.dermalisys.data.remote.response.logout.LogoutResponse
 import com.dermalisys.data.remote.response.predict.PredictWithUserResponse
 import com.dermalisys.data.remote.response.register.RegisterBadRequestResponse
 import com.dermalisys.data.remote.response.register.RegisterOkResponse
+import com.dermalisys.data.remote.response.resetpassword.ResetPasswordResponse
+import com.dermalisys.data.remote.response.storenewuser.StoreNewUserResponse
+import com.dermalisys.data.remote.response.updateuserdisplay.UpdateUserDisplayNameResponse
 import com.dermalisys.data.remote.retrofit.ApiConfig
 import com.dermalisys.data.remote.retrofit.ApiService
 import com.dermalisys.util.Result
@@ -36,7 +38,6 @@ class UserRepository(
     private val historyDatabase: HistoryDatabase
 ) {
     private val secretToken = BuildConfig.API_SECRET_TOKEN
-    private var currentImageUri: Uri? = null
 
     suspend fun saveSession(user: UserModel) {
         userPref.saveSession(user)
@@ -66,9 +67,9 @@ class UserRepository(
 
         // Request data
         val jsonData = "{\"email\":\"$email\",\"password\":\"$pass\",\"name\":\"$name\"}"
-
         // Compute signature
         val signature = generateSignature(jsonData, secretToken)
+
         emit(Result.Loading)
         try {
             val response = ApiConfig.getApiService(signature).register(email, pass, name)
@@ -78,7 +79,11 @@ class UserRepository(
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, RegisterBadRequestResponse::class.java)
             val errorMessage = errorBody.message
-            emit(Result.Error(errorMessage))
+            if (errorMessage == "Firebase: Error (auth/email-already-in-use).") {
+                emit(Result.Error("Email already in user"))
+            } else {
+                emit(Result.Error(errorMessage))
+            }
         }
     }
 
@@ -87,7 +92,6 @@ class UserRepository(
     ): LiveData<Result<LoginOkResponse>> = liveData  {
 
         val jsonData = "{\"email\":\"$email\",\"password\":\"$pass\"}"
-
         val signature = generateSignature(jsonData, secretToken)
 
         Log.d("signature", signature)
@@ -98,7 +102,39 @@ class UserRepository(
         } catch (e: HttpException) {
             Log.d("login", e.message.toString())
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, RegisterBadRequestResponse::class.java)
+            val errorBody = Gson().fromJson(jsonInString, LoginOkResponse::class.java)
+            val errorMessage = errorBody.message
+            if (errorMessage == "Firebase: Error (auth/invalid-credential).") {
+                emit(Result.Error("Email or Password is wrong"))
+            } else {
+                emit(Result.Error(errorMessage))
+            }
+        }
+    }
+
+    fun resetPassword(signature: String, email: String): LiveData<Result<ResetPasswordResponse>> = liveData  {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).resetPassword(email)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("resetPassword", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ResetPasswordResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage))
+        }
+    }
+
+    fun updateUserDisplayName(signature: String, userId: String, name: String, accessToken: String): LiveData<Result<UpdateUserDisplayNameResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).updateUserDisplayName(userId, name, accessToken)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("resetPassword", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ResetPasswordResponse::class.java)
             val errorMessage = errorBody.message
             emit(Result.Error(errorMessage))
         }
@@ -138,11 +174,11 @@ class UserRepository(
 
     fun predictWithoutUser(
         multipart: MultipartBody.Part,
-        token: String
+        signature: String
     ): LiveData<Result<PredictWithUserResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = ApiConfig.getApiService(token).predictWithoutUser(multipart)
+            val response = ApiConfig.getApiService(signature).predictWithoutUser(multipart)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             Log.d("predictWithUser", e.message.toString())
@@ -157,15 +193,46 @@ class UserRepository(
         }
     }
 
+    fun getAccessTokenWithHistoryAPI(signature: String, userId: String, accessToken: String): LiveData<Result<GetAllUserPredictResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).getAccessTokenWithHistoryAPI(userId, accessToken)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("predictWithUser", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, PredictWithUserResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage!!))
+        }
+    }
+
     fun getHistory(signature: String, userId: String, accessToken: String): LiveData<PagingData<DataItem>> {
+        @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
+            remoteMediator = HistoryRemoteMediator(historyDatabase, signature, userId, accessToken),
             pagingSourceFactory = {
-                HistoryPagingSource(signature, userId, accessToken)
+//                HistoryPagingSource(signature, userId, accessToken)
+                historyDatabase.historyDao().getAllHistory()
             }
         ).liveData
+    }
+
+    fun storeNewUser(signature: String, id: String, name: String, email: String): LiveData<Result<StoreNewUserResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = ApiConfig.getApiService(signature).storeNewUser(id, name, email)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            Log.d("storeNewUser", e.message.toString())
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, StoreNewUserResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage))
+        }
     }
 
     companion object{

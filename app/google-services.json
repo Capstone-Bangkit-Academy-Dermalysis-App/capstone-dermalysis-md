@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "332267654002",
-    "project_id": "capstone-dermalysis",
-    "storage_bucket": "capstone-dermalysis.appspot.com"
+    "project_number": "559661806103",
+    "project_id": "dermalisys-ffe09",
+    "storage_bucket": "dermalisys-ffe09.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:332267654002:android:3204af4b6cbb5caf59ebeb",
+        "mobilesdk_app_id": "1:559661806103:android:8fa19d5eab959d894b6252",
         "android_client_info": {
           "package_name": "com.dermalisys"
         }
       },
       "oauth_client": [
         {
-          "client_id": "332267654002-8erelfc0sh771g61ld3mrsqfhm01l607.apps.googleusercontent.com",
+          "client_id": "559661806103-phlgvoltdb8b834jp8fi50i6gaejm7d2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dermalisys",
+            "certificate_hash": "bbca2d9764c5c05cf95c1b118ab595272724e40a"
+          }
+        },
+        {
+          "client_id": "559661806103-8afu61o7kekcaobodfkhrnphh3ea493v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTF49oUYJ4ymEh_lOxTaAJvk6QH1l_mjs"
+          "current_key": "AIzaSyAMsD7HWjueJtSf3Hpii35g9blOjjkzYjs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "332267654002-8erelfc0sh771g61ld3mrsqfhm01l607.apps.googleusercontent.com",
+              "client_id": "559661806103-8afu61o7kekcaobodfkhrnphh3ea493v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

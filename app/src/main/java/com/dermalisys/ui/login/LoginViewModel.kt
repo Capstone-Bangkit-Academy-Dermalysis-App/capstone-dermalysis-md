@@ -16,4 +16,7 @@ class LoginViewModel(private val repository: UserRepository): ViewModel() {
 
     fun login(username: String, password: String) =
         repository.login(username, password)
+
+    fun storeNewUser(signature: String, id: String, name: String, email: String) =
+        repository.storeNewUser(signature, id, name, email)
 }
