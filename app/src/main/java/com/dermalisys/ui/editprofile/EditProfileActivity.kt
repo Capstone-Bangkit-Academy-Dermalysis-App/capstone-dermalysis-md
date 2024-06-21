@@ -11,9 +11,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dermalisys.BuildConfig
+import com.dermalisys.R
 import com.dermalisys.data.pref.UserModel
 import com.dermalisys.databinding.ActivityEditProfileBinding
 import com.dermalisys.ui.ViewModelFactory
+import com.dermalisys.ui.main.MainActivity
 import com.dermalisys.ui.profile.ProfileActivity
 import com.dermalisys.util.Result
 import kotlinx.coroutines.launch
@@ -155,5 +157,13 @@ class EditProfileActivity : AppCompatActivity() {
         mac.init(keySpec)
         val hash = mac.doFinal(data.toByteArray())
         return hash.joinToString("") { "%02x".format(it) }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, ProfileActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+        finish()
     }
 }

@@ -338,15 +338,6 @@ class PreviewActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-        startActivity(intent)
-        finish()
-    }
-
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
         private const val SECRET_TOKEN = BuildConfig.API_SECRET_TOKEN
